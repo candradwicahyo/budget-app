@@ -1,0 +1,167 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  text-decoration: none;
+}
+
+body {
+  background: #f4f7fe;
+  font-family: Arial;
+}
+
+.container {
+  position: relative;
+  margin: 40px auto;
+  min-height: 100vh;
+  width: 70%;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.row .wrapper {
+  width: 50%;
+  margin: 0 5px;
+}
+
+.box {
+  position: relative;
+  width: 100%;
+  background: white;
+  border-radius: 5px;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.box-header {
+  height: 300px;
+}
+
+.box .title {
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+}
+
+.input {
+  position: relative;
+  width: 100%;
+  height: 45px;
+  background: #f4f7fe;
+  padding: 0 20px;
+  font-weight: 500;
+  margin: 5px 0;
+  overflow: hidden;
+}
+
+.button {
+  position: relative;
+  padding: 12px 15px;
+  font-weight: 500;
+  color: #fff;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.button-blue {
+  background: royalblue;
+}
+
+.button-red {
+  background: red;
+}
+
+.main-content {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px 0;
+  background: royalblue;
+}
+
+.main-content .content-wrapper {
+  text-align: center;
+}
+
+.main-content .content-wrapper h3,
+.main-content .content-wrapper span {
+  color: #fff;
+}
+
+.main-content .content-wrapper h3 {
+  margin-bottom: 10px;
+}
+
+.list-container {
+  width: 100%;
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.list {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 20px;
+  background: white;
+  border-left: 7px solid royalblue;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.list .icon-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.list .icon-wrapper i:first-child {
+  margin-right: 10px;
+}
+
+.list .icon-wrapper i {
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 5px;
+}
+
+/* mobile or tablet */
+@media screen and (max-width: 768px) {
+  
+  .container {
+    width: 90%;
+  }
+  
+  .row,
+  .main-content {
+    flex-direction: column;
+  }
+  
+  .main-content .content-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 120px;
+  }
+  
+  .row .wrapper {
+    width: 100%;
+    margin: 8px 0;
+  }
+  
+  .list span {
+    display: inline-block;
+    font-size: 0.9rem;
+  }
+  
+}

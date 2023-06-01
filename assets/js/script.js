@@ -14,13 +14,18 @@ window.addEventListener('DOMContentLoaded', () => {
     event.preventDefault();
     const value = inputBudget.value.trim();
     if (validateInteger(value)) {
-      budget = Number(value);
+      budget = parseFloat(value);
       setLocalstorage('budget', budget);
       showBudget();
       alerts('success', 'Budget has been added');
       getBalance();
       clear();
     }
+  }
+  
+  function convertToCurrency(price) {
+    price = price.toLocaleString('US', { style: 'currency', currency: 'USD' });
+    return price;
   }
   
   function validateInteger(value) {
@@ -44,15 +49,15 @@ window.addEventListener('DOMContentLoaded', () => {
   
   function showBudget() {
     const data = localStorage.getItem('budget');
-    budget = (data) ? data : 0;
+    budget = (data) ? parseFloat(data) : 0;
     setValue();
   }
   
   showBudget();
   
   function setValue() {
-    totalBudget.textContent = budget;
-    balance.textContent = budget;
+    totalBudget.textContent = convertToCurrency(budget);
+    balance.textContent = convertToCurrency(budget);
   }
   
   function clear() {
@@ -72,9 +77,9 @@ window.addEventListener('DOMContentLoaded', () => {
       const data = { item: item, price: priceItem };
       if (validateString(item) && validateInteger(priceItem)) {
         if (isDataExist(data)) return alerts('error', 'Data is already exist!');
+        data.price = parseFloat(data.price);
         tasks.unshift(data);
         setLocalstorage('item', tasks);
-        showUI(data);
         alerts('success', 'New item has been added');
         getBalance();
         showItem();
@@ -99,10 +104,10 @@ window.addEventListener('DOMContentLoaded', () => {
   }
   
   function getBalance() {
-    const expense = tasks.map(task => Number(task.price)).reduce((acc, num) => acc += num, 0);
+    const expense = tasks.map(task => parseFloat(task.price)).reduce((acc, num) => acc += num, 0);
     const totalBalance = budget - expense;
-    expenses.textContent = expense;
-    balance.textContent = totalBalance;
+    expenses.innerText = convertToCurrency(expense);
+    balance.innerText = convertToCurrency(totalBalance);
   }
   
   function showUI(data, index = 0) {
@@ -111,12 +116,12 @@ window.addEventListener('DOMContentLoaded', () => {
   }
   
   function showItem() {
-    listContainer.innerHTML = '';
+    resetState();
     const data = localStorage.getItem('item');
     tasks = (data) ? JSON.parse(data) : [];
     tasks.forEach((task, index) => {
-      showUI(task, index);
       getBalance();
+      showUI(task, index);
     });
   }
   
@@ -126,7 +131,7 @@ window.addEventListener('DOMContentLoaded', () => {
     return `
       <div class="list">
         <span>${item}</span>
-        <span>${price}</span>
+        <span>${convertToCurrency(price)}</span>
         <div class="icon-wrapper">
           <i class="fa-solid fa-pencil button-edit" data-index="${index}"></i>
           <i class="fa-solid fa-trash-alt button-delete" data-index="${index}"></i>
@@ -153,9 +158,9 @@ window.addEventListener('DOMContentLoaded', () => {
       if (response.isConfirmed) {
         tasks.splice(index, 1);
         setLocalstorage('item', tasks);
-        showItem();
         alerts('success', 'Item has been deleted!');
         getBalance();
+        showItem();
       }
     });
   }
@@ -179,12 +184,11 @@ window.addEventListener('DOMContentLoaded', () => {
         const data = { item: item, price: priceItem };
         if (validateString(item) && validateInteger(priceItem)) {
           if (isDataExist(data)) return alerts('error', 'Data is already exist!');
-          tasks[index].item = item;
-          tasks[index].price = priceItem;
+          data.price = parseFloat(data.price);
+          tasks[index] = data;
           setLocalstorage('item', tasks);
-          showItem();
-          getBalance();
           alerts('success', 'Item has been updated!');
+          showItem();
           clear();
           buttonSubmit.textContent = 'Add item';
           index = null;
@@ -203,6 +207,10 @@ window.addEventListener('DOMContentLoaded', () => {
     showBudget();
     alerts('success', 'Budget has been deleted!');
     getBalance();
+  }
+  
+  function resetState() {
+    listContainer.innerHTML = '';
   }
   
 });
